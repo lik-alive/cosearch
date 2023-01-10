@@ -1,0 +1,24 @@
+### Generate secret code
+python3
+import secrets
+secrets.token_hex(16)
+- Place token in settings.ini
+
+### Init python env
+- Select .env.prod or .env.dev in docker-compose.yaml
+
+### Enable vscode syntax support (optional)
+
+# Install dev environment
+sudo apt install libmysqlclient-dev python-dev
+
+# Install venv and flask
+sudo apt install python3-venv
+python3 -m venv venv
+source venv/bin/activate
+pip3 install --upgrade pip -r requirements.txt
+
+# Configure VSCode
+- Press F1
+Python: Select Interpreter
+- Select virtual environment ./venv/bin/python
