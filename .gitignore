@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-.env.dev
-.env.prod
+.env.development
+.env.production
+
+package-lock.json
+yarn.lock

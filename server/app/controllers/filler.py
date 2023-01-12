@@ -5,7 +5,6 @@ from flask import jsonify
 from app.controllers.parserComps.issue import Issue
 from app.db import db
 from app.models.paper import Paper
-from sqlalchemy.orm import sessionmaker
 from .fillerComps.fill_doi import fill_doi
 from .fillerComps.fill_doi import test_doi
 from .fillerComps.fill_keywords_ru import fill_keywords_ru
@@ -77,6 +76,7 @@ class Filler:
         paper.title_en = "Editorial: The hundredth issue of the journal Computer Optics"
 
         db.session.commit()
+        db.session.close()
         return 'Success'
 
     @staticmethod
@@ -103,6 +103,7 @@ class Filler:
                 print(f'paper: {paper.id}')
 
         db.session.commit()
+        db.session.close()
         return 'Success'
 
     @staticmethod
@@ -126,4 +127,52 @@ class Filler:
                 print(f'paper: {paper.id}')
 
         db.session.commit()
+        db.session.close()
+        return 'Success'
+
+    """Fill in paper years"""
+    @staticmethod
+    def fill_years():
+        for paper in db.session.query(Paper).all():
+            vol = paper.issue[0:paper.issue.index(
+                '-')] if '-' in paper.issue else paper.issue
+            vol = int(vol)
+
+            if vol <= 2:
+                year = 1987
+            elif vol <= 3:
+                year = 1988
+            elif vol <= 6:
+                year = 1989
+            elif vol <= 8:
+                year = 1990
+            elif vol <= 9:
+                year = 1991
+            elif vol <= 12:
+                year = 1992
+            elif vol <= 13:
+                year = 1993
+            elif vol <= 14:
+                year = 1995
+            elif vol <= 20:
+                year = 1980 + vol
+            elif vol <= 22:
+                year = 2001
+            elif vol <= 24:
+                year = 2002
+            elif vol <= 25:
+                year = 2003
+            elif vol <= 26:
+                year = 2004
+            elif vol <= 28:
+                year = 2005
+            elif vol <= 30:
+                year = 2006
+            else:
+                year = 2023 - 47 + vol
+
+            paper.year = year
+
+        db.session.commit()
+        db.session.close()
         return 'Success'

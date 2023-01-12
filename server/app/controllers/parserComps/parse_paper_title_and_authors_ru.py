@@ -2,7 +2,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from .info import Info
-from ..helper import sstr
+from app.actions.helper import sstr
 
 """Parse paper title and authors in Russian."""
 

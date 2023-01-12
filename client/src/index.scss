@@ -1,0 +1,37 @@
+html,
+body {
+  height: 100%;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+.brand {
+  color: #1d477a;
+  font-weight: 500;
+}
+
+.bolder {
+  font-weight: 500;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+#__react-alert__ {
+  & > div {
+    margin-top: 80px;
+  }
+}

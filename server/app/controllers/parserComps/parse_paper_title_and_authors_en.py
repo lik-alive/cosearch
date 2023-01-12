@@ -2,7 +2,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from .info import Info
-from ..helper import sstr
+from app.actions.helper import sstr
 
 """Parse paper title and authors in English."""
 
@@ -23,7 +23,7 @@ def parse_paper_title_and_authors_en(info: Info):
             # Skip empty links
             if len(link.text.strip()) == 0:
                 continue
-            if 'Kotlyar' in link['href'].lower():
+            if 'kotlyar' in link['href'].lower():
                 continue
             if 'index.html' in link['href'].lower():
                 continue

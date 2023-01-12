@@ -1,6 +1,8 @@
 import re
+from difflib import SequenceMatcher
 
 """Sanitize string"""
+
 
 def sstr(info, noendl=True, noenddot=False):
     # Rewrite non-standard spaces
@@ -22,3 +24,10 @@ def sstr(info, noendl=True, noenddot=False):
 
     # Strip string
     return res.strip()
+
+
+"""Compare strings"""
+
+
+def compstr(a, b):
+    return SequenceMatcher(None, a, b).ratio() * 100

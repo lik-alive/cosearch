@@ -1,7 +1,3 @@
-import re
-import requests
-from bs4 import BeautifulSoup
-from flask import jsonify
 from app.controllers.parserComps.issue import Issue
 from app.db import db
 from app.models.paper import Paper

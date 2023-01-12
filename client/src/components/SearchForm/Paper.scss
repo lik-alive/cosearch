@@ -1,0 +1,28 @@
+.paper {
+  .field:not(:first-of-type) {
+    margin-top: 8px;
+  }
+
+  .pdfpreview {
+    height: 80vh;
+    width: 100%;
+  }
+
+  .cb-btn {
+    position: relative;
+    display: inline-block;
+    margin: 0 2px;
+    opacity: 0.8;
+
+    span {
+      position: absolute;
+      left: 5px;
+      top: 7px;
+      color: white;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

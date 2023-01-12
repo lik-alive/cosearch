@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from app.db import db
 from app.models.paper import Paper
-from ..helper import sstr
+from app.actions.helper import sstr
 
 """Fill abstract in English"""
 

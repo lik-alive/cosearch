@@ -7,7 +7,7 @@ services:
     image: cosearch-server
     container_name: cosearch-server
     env_file:
-      - ./server/.env.dev
+      - ./server/.env.development
     restart: always
     volumes:
       - ./server:/server
