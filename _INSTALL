@@ -5,7 +5,7 @@ secrets.token_hex(16)
 - Place token in settings.ini
 
 ### Init python env
-- Select .env.prod or .env.dev in docker-compose.yaml
+- Select .env.production or .env.development in docker-compose.yaml
 
 ### Enable vscode syntax support (optional)
 

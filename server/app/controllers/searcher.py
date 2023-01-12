@@ -83,6 +83,9 @@ class Searcher:
                                 matched_keywords.append(keyword)
                                 break
 
+        # Sort keywords
+        matched_keywords.sort()
+
         db.session.close()
 
         return jsonify({

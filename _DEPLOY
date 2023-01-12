@@ -1,2 +1,2 @@
 # Deploy server
-docker-compose up --build
+docker-compose up -d --remove-orphans --build
