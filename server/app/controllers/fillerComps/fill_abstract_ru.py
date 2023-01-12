@@ -11,7 +11,7 @@ from app.actions.helper import sstr
 def fill_abstract_ru(paper: Paper, soup: BeautifulSoup):
     if paper.title_ru is None:
         return
-    
+
     # Fix unclosed taggs
     items = soup.find_all(lambda tag: tag.name ==
                           "p" and 'Аннотация' in tag.text)
@@ -29,6 +29,11 @@ def fill_abstract_ru(paper: Paper, soup: BeautifulSoup):
 
         if len(abstract) > 0:
             abstract = abstract[0]
+
+            # HOT FIXES
+            if "электронная почта" in abstract:
+                abstract = abstract[0:abstract.index("Ключевые слова")]
+
             abstract = sstr(abstract)
 
             paper.abstract_ru = abstract

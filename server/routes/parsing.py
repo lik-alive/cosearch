@@ -25,6 +25,11 @@ from .api import api
 #     return Filler.fill_data_en()
 
 
+@api.route('/fill-data-fix', methods=['GET'])
+def fillDataFix():
+    return Filler.fill_data_fix()
+
+
 # @api.route('/fill-years', methods=['GET'])
 # def fillYears():
 #     return Filler.fill_years()

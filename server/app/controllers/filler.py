@@ -176,3 +176,22 @@ class Filler:
         db.session.commit()
         db.session.close()
         return 'Success'
+
+    """Fix fill errors"""
+    @staticmethod
+    def fill_data_fix():
+        for paper in db.session.query(Paper).filter(Paper.id.in_([2158, 2166, 2157, 2168, 2164, 2163, 2167])).all():
+            r = requests.get(paper.page_ru)
+            soup = BeautifulSoup(r.content, 'html.parser',
+                                 from_encoding="utf8")
+            fill_abstract_ru(paper, soup)
+
+        for paper in db.session.query(Paper).filter(Paper.id.in_([1032, 2001, 2000, 2036, 1999])).all():
+            r = requests.get(paper.page_en)
+            soup = BeautifulSoup(r.content, 'html.parser',
+                                 from_encoding="utf8")
+            fill_abstract_en(paper, soup)
+
+        db.session.commit()
+        db.session.close()
+        return 'Success'

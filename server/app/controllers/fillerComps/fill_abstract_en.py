@@ -37,6 +37,14 @@ def fill_abstract_en(paper: Paper, soup: BeautifulSoup):
 
         if len(abstract) > 0:
             abstract = abstract[0]
+
+            # HOT FIXES
+            if "E-mail" in abstract:
+                if "Keywords" in abstract:
+                    abstract = abstract[0:abstract.index("Keywords")]
+                else:
+                    abstract = abstract[0:abstract.index("Key words")]
+
             abstract = sstr(abstract)
 
             paper.abstract_en = abstract
