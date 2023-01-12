@@ -2,16 +2,34 @@
   background-color: #1d477a !important;
 
   .navbar-brand {
-    font-size: 28px;
+    font-size: 24px;
     display: flex;
     padding: 0;
 
     .title {
-      margin-top: 10px;
+      margin-top: 14px;
 
       .sub {
         font-style: italic;
         font-weight: 300;
+      }
+    }
+
+    .logo {
+      height: 60px;
+    }
+  }
+
+  @media screen and (min-width: 576) {
+    .navbar-brand {
+      font-size: 28px;
+
+      .title {
+        margin-top: 10px;
+      }
+
+      .logo {
+        height: 50px;
       }
     }
   }
