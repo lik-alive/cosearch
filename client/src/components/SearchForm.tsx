@@ -108,12 +108,12 @@ export default function SearchForm(pars: any) {
     <div className="search-form mt-4">
       <Container>
         <form onSubmit={e => e.preventDefault()}>
-          <Form.Label htmlFor="inputTerm">Search query</Form.Label>
           <Form.Control
             type="text"
             value={query}
             onChange={event => updateQuery(event.target.value)}
             id="inputTerm"
+            placeholder="Place your terms here..."
           />
         </form>
       </Container>
