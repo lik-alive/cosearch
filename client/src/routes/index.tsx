@@ -22,7 +22,7 @@ export default function Index() {
           <div>
             Please specify <span className="bolder">one or more terms</span>{" "}
             (maximum 10) separated by comma in the form below. You can use both{" "}
-            <span className="bolder">Russian</span> or{" "}
+            <span className="bolder">Russian</span> and{" "}
             <span className="bolder">English</span> language.
           </div>
         </Container>
