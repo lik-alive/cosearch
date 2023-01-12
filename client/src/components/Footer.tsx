@@ -8,8 +8,8 @@ export default function Footer() {
     <footer className="text-white py-2">
       <Container>
         <Row>
-          <Col sm={12} md={10}>Computer Optics Search 2023-{year}</Col>
-          <Col className="text-end">©LIK</Col>
+          <Col xs={9}>Computer Optics Search 2023-{year}</Col>
+          <Col xs={3} className="text-end">©LIK</Col>
         </Row>
       </Container>
     </footer>
