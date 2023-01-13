@@ -120,9 +120,9 @@ export default function SearchForm(pars: any) {
 
       <Container className="mt-3 px-md-2 px-xl-4" fluid>
         {loading && (
-          <Row className="justify-content-center">
+          <div className="d-flex justify-content-center">
             <COSpinner />
-          </Row>
+          </div>
         )}
 
         {!loading && (
@@ -131,7 +131,9 @@ export default function SearchForm(pars: any) {
               {PaperList(data.papers, data.terms)}
             </Col>
 
-            <Col className="mb-2">{Keywords(data.keywords, updateQuery)}</Col>
+            <Col className="mb-2">
+              {Keywords(data.keywords, data.terms || [], updateQuery)}
+            </Col>
           </Row>
         )}
       </Container>
