@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 
 export default function Keywords(
   keywords: Array<string> | undefined,
+  terms: Array<string>,
   updateQuery: Function
 ) {
   if (!keywords) return;
@@ -15,7 +16,7 @@ export default function Keywords(
     <Button
       variant="outline-secondary"
       size="sm"
-      className="m-1"
+      className={"m-1 " + (terms.includes(keyword) ? "active" : "")}
       key={keyword}
       onClick={event => handleClick(event, keyword)}
     >
