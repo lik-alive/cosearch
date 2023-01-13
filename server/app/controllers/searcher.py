@@ -27,7 +27,7 @@ class Searcher:
 
         # Split terms and convert to lower case
         terms = [t.strip().lower()
-                 for t in query.split(',') if len(t.strip()) > 3]
+                 for t in query.split(',') if len(t.strip()) >= 3]
 
         # Maximum - 10 terms
         if len(terms) > 10:
@@ -58,7 +58,8 @@ class Searcher:
                 f"%{term}%") | Paper.abstract_en.like(f"%{term}%")
 
         # Extract papers from DB
-        papers = db.session.query(Paper).filter(termFilter).all()
+        papers = db.session.query(Paper).filter(termFilter).filter(
+            (Paper.year >= 2020) | (Paper.citedcount == 0) | ((Paper.citedcount >= 33) & (Paper.citedcount < 36))).all()
 
         # Filter keywords
         matched_keywords = []
