@@ -77,6 +77,8 @@ class Scopus:
         if 'search-results' in data and data['search-results']['opensearch:totalResults'] != '0':
             for entry in data['search-results']['entry']:
                 found = False
+                similar = 0
+                similarData = []
                 # Fix symbols
                 scopusTitle = entry['dc:title']
                 scopusTitle = scopusTitle.replace('’', "'")
@@ -116,13 +118,13 @@ class Scopus:
                                 paper.doi, scopusDoi)
 
                         found = True
+                        similar = False
                         break
 
                     # Search by equality
                     if paper.title_en.lower() == scopusTitle.lower():
                         paper.eid = entry['eid']
                         paper.citedcount = entry['citedby-count']
-                        found = True
 
                         print(paper.issue, paper.no)
 
@@ -133,15 +135,22 @@ class Scopus:
                             Scopus.printStrdif(
                                 paper.doi, scopusDoi)
 
+                        found = True
+                        similar = False
                         break
                     # Search by similarity
                     elif compstr(paper.title_en, scopusTitle) > 80:
                         found = True
+                        if compstr(paper.title_en, scopusTitle) > similar:
+                            similar = compstr(paper.title_en, scopusTitle)
+                            similarData = [paper.issue, paper.no, entry['eid'],
+                                           entry['citedby-count'], paper.title_en, scopusTitle]
 
-                        print('!!!Very similar titles',
-                              paper.issue, paper.no, entry['eid'], entry['citedby-count'])
-                        print(paper.title_en)
-                        print(scopusTitle)
+                if similar > 0:
+                    print('!!!Very similar titles',
+                          similarData[0], similarData[1], similarData[2], similarData[3])
+                    print(similarData[4])
+                    print(similarData[5])
 
                 if not found:
                     print('!!!Not found a paper to link',
@@ -172,7 +181,7 @@ class Scopus:
                 continue
 
             # Skip already checked issues
-            if not (int(vol) >= 36 and int(vol) <= 36):  # 36-32
+            if not (int(vol) >= 34 and int(vol) <= 34):
                 continue
 
             papers = db.session.query(Paper).filter(Paper.issue == issue).all()
@@ -749,6 +758,267 @@ class Scopus:
             Paper.issue == '37-4').filter(Paper.no == 5).first()
         paper.title_en = "The modification of laser beam for optimization of optical trap force characteristics"
 
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-1').filter(Paper.no == 12).first()
+        paper.eid = "2-s2.0-84926241403"
+        paper.citedcount = 3
+        paper.title_en = "Experimental realisation of microparticle's optical trapping by use of binary radial DOE"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-1').filter(Paper.no == 17).first()
+        paper.eid = "2-s2.0-84926240755"
+        paper.citedcount = 5
+        paper.title_en = "Object detection and recognition in the driver assistance system based on the fractal analysis"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-1').filter(Paper.no == 3).first()
+        paper.eid = "2-s2.0-84926235049"
+        paper.citedcount = 8
+        paper.title_en = "The perturbation theory for Schrodinger equation in the periodic environment in momentum representation"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-1').filter(Paper.no == 18).first()
+        paper.eid = "2-s2.0-84922686119"
+        paper.citedcount = 10
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 6).first()
+        paper.eid = "2-s2.0-84926242331"
+        paper.citedcount = 5
+        paper.title_en = "Focusing of linearly polarized light using binary axicon with subwavelength period"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 9).first()
+        paper.eid = "2-s2.0-84926235327"
+        paper.citedcount = 3
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 13).first()
+        paper.eid = "2-s2.0-84924732166"
+        paper.citedcount = 3
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 17).first()
+        paper.eid = "2-s2.0-84924661846"
+        paper.citedcount = 4
+        paper.title_en = "Determination of coordinates and parameters of movement of object on the basis of processing of images"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 16).first()
+        paper.eid = "2-s2.0-84922686410"
+        paper.citedcount = 9
+        paper.title_en = "An algorithm for automatic construction of computational procedure of non-linear local image processing on the base of hierarchical regression"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 4).first()
+        paper.eid = "2-s2.0-84922686263"
+        paper.citedcount = 2
+        paper.title_en = "Higher-order polarization mode dispersion mathematical models for silica anisotropic optical waveguide"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 5).first()
+        paper.eid = "2-s2.0-84922686144"
+        paper.citedcount = 6
+        paper.title_en = "Analogue of Rayleigh-Sommerfeld integral for anisotropic and gyrotropic media"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 18).first()
+        paper.title_en = "Discretization of continuous contours of images, defined in a complex-valued form"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-2').filter(Paper.no == 11).first()
+        paper.eid = "2-s2.0-84922685332"
+        paper.citedcount = 9
+        paper.title_en = "Reducing of the focal spot size at radial polarization by means of the binary annular element"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-3').filter(Paper.no == 13).first()
+        paper.eid = "2-s2.0-84922685692"
+        paper.citedcount = 9
+        paper.title_en = "Modeling and investigation superachromatozation refractive and refractive-diffractive optical systems"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-4').filter(Paper.no == 8).first()
+        paper.eid = "2-s2.0-84926233490"
+        paper.citedcount = 7
+        paper.title_en = "Joint solution of the Klein-Gordon And Maxwell's equations"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '36-4').filter(Paper.no == 9).first()
+        paper.eid = "2-s2.0-84922687394"
+        paper.citedcount = 3
+        paper.title_en = "Joint finite-difference solution of the dalamber and Maxwell's equations. One-dimensional case"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '35-1').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081418088"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '35-1').filter(Paper.no == 7).first()
+        paper.eid = "2-s2.0-84875691533"
+        paper.citedcount = 1
+        paper.title_en = "Metal-dielectric Mikaelan's lense"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '35-1').filter(Paper.no == 10).first()
+        paper.eid = "2-s2.0-84861866482"
+        paper.citedcount = 9
+        paper.title_en = 'Optimization of binary doe for formation of the "light bottle"'
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '35-2').filter(Paper.no == 6).first()
+        paper.eid = "2-s2.0-84871777613"
+        paper.citedcount = 17
+        paper.title_en = "The research of intensification's expedients for nanoporous structures formation in metal materials by the selective laser sublimation of alloy's components"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-1').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081414051"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-1').filter(Paper.no == 6).first()
+        paper.eid = "2-s2.0-84855218256"
+        paper.citedcount = 3
+        paper.title_en = "Speckle-photography and holographic interferometry with digital recording of diffraction field in Fourier plane"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-1').filter(Paper.no == 2).first()
+        paper.eid = None
+        # paper.citedcount = 17
+        paper.title_en = "Light spot diameter in the near zone of binary diffractive microaxicon"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-2').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081418121"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-3').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081418211"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-3').filter(Paper.no == 16).first()
+        paper.eid = "2-s2.0-84863435039"
+        paper.citedcount = 3
+        paper.title_en = "Linear filtering of continuous contours of images, defined in a complex form"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-4').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081418884"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-4').filter(Paper.no == 12).first()
+        paper.eid = "2-s2.0-84945972679"
+        paper.citedcount = 4
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-4').filter(Paper.no == 1).first()
+        paper.eid = "2-s2.0-84926235022"
+        paper.citedcount = 3
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '34-4').filter(Paper.no == 19).first()
+        paper.eid = "2-s2.0-84907423146"
+        paper.citedcount = 2
+        paper.title_en = "Gaussian integers representation in Pitti's number system"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '33-2').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081420340"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '33-3').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081418761"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '33-3').filter(Paper.no == 5).first()
+        paper.eid = "2-s2.0-84945944744"
+        paper.citedcount = 0
+        paper.title_en = "D.Gabor's scheme optimization for computer hologram recording"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '33-4').filter(Paper.title_ru.like("%подготовки рукописей%")).first()
+        paper.eid = "2-s2.0-85081417417"
+        paper.citedcount = 0
+        paper.title_en = "Guidelines for authors of the journal of Computer Optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-1').filter(Paper.no == 10).first()
+        paper.eid = "2-s2.0-85030866629"
+        paper.citedcount = 0
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-1').filter(Paper.no == 2).first()
+        paper.eid = "2-s2.0-85030834390"
+        paper.citedcount = 0
+        paper.title_en = "I.N. Sisakyan's scientific works on diffractive and fiber optics"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-2').filter(Paper.no == 4).first()
+        paper.eid = "2-s2.0-85019187031"
+        paper.citedcount = 6
+        paper.title_en = "Integral representations of solutions of Maxwell's equations in the form of the spectrum of surface electromagnetic waves"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-2').filter(Paper.no == 3).first()
+        paper.eid = "2-s2.0-84945936442"
+        paper.citedcount = 2
+        paper.title_en = "Design and analysis of diffractive micro- and nano-structures"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-2').filter(Paper.no == 12).first()
+        paper.eid = "2-s2.0-77952592639"
+        paper.citedcount = 18
+        paper.title_en = "Design of radially-symmetrical refractive surface taking into account Fresnel loss"
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-3').filter(Paper.no == 11).first()
+        paper.eid = "2-s2.0-85021717322"
+        paper.citedcount = 3
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-3').filter(Paper.no == 16).first()
+        paper.eid = "2-s2.0-85031038591"
+        paper.citedcount = 2
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-4').filter(Paper.no == 6).first()
+        paper.eid = "2-s2.0-84989934382"
+        paper.citedcount = 6
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-4').filter(Paper.no == 3).first()
+        paper.eid = "2-s2.0-84945940978"
+        paper.citedcount = 2
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-4').filter(Paper.no == 5).first()
+        paper.eid = "2-s2.0-84926236830"
+        paper.citedcount = 4
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-4').filter(Paper.no == 12).first()
+        paper.eid = "2-s2.0-84926232915"
+        paper.citedcount = 3
+
+        paper = db.session.query(Paper).filter(
+            Paper.issue == '32-4').filter(Paper.no == 10).first()
+        paper.eid = "2-s2.0-84871953787"
+        paper.citedcount = 2
+
         """ SCOPUS ERRORS
 cosearch-server | !!!Already found but different in titles 46-2 18
 cosearch-server | Transformer point net: cost-efficient classification of on-road objects captured by light ranging sensors on low-resolution conditions
@@ -847,9 +1117,102 @@ cosearch-server | !!!Already found but different in titles 37-3 2
 cosearch-server | Modulation instability of packets in inhomogeneous light guides
 cosearch-server | Guidelines for authors of the journal of computer optics
 
+cosearch-server | !!!Already found but different in titles 36-1 3
+cosearch-server | The perturbation theory for Schrodinger equation in the periodic environment in momentum representation
+cosearch-server | The theory of indignations for Schrodinger equation in the periodic environment in momentum representation representation
+
+cosearch-server | !!!Already found but different in titles 36-1 18
+cosearch-server | Conformed identification in corresponding points detection problem
+cosearch-server | Identification in corresponding points detection problem
+
+cosearch-server | !!!Already found but different in titles 32-2 4
+cosearch-server | Integral representations of solutions of Maxwell's equations in the form of the spectrum of surface electromagnetic waves
+cosearch-server | Solution of Maxwell's equations in the integral form of a spectrum of surface plasmons
+
+osearch-server | !!!Already found but different in titles 32-2 2
+cosearch-server | Nanophotonics - the manipulation of light by nanostructures
+cosearch-server | Nanophotonics: Light manipulation using nanostructures
+
+cosearch-server | !!!Already found but different in titles 32-2 12
+cosearch-server | Design of radially-symmetrical refractive surface taking into account Fresnel loss
+cosearch-server | Design of radiosymmetrical refractive surfaces with taking Fresnel loss into account
+
+cosearch-server | !!!Already found but different in titles 32-3 16
+cosearch-server | Face recognition on the basis of conjugation indexes in the space of summarizing invariants
+cosearch-server | Feature space reduction using multicollinearity features
+
+cosearch-server | !!!Already found but different in titles 32-3 11
+cosearch-server | Method of rapid correlation using ternary templates for object recognition in images
+cosearch-server | The method of fast correlation using ternary templates for object recognition on images
+
+cosearch-server | !!!Already found but different in titles 32-4 9
+cosearch-server | Approximate method of optical energy distribution calculation in multiple scattering media
+cosearch-server | Approximate method of optical energy distribution calculation in multiple scattering mediums
+
+cosearch-server | !!!Already found but different in titles 32-4 6
+cosearch-server | Fabrication of three-dimensional photonics crystals by interference lithography with low light absorption
+cosearch-server | Synthesis of three-dimensional photonic crystals by interference lithography with low light absorbtion
+
+cosearch-server | !!!Already found but different in titles 32-4 3
+cosearch-server | Geometric-optics design of focusators into a line in noparaxial case
+cosearch-server | The design of the diffractive optical element to focus into a line in noparaxial case
+
+cosearch-server | !!!Already found but different in titles 32-4 5
+cosearch-server | Laser nanostructurizing of metal materials by application of moveable radiation focusators
+cosearch-server | Laser nanostructurizing of metal materials by application of moveable radiation
+
+osearch-server | !!!Already found but different in titles 32-4 12
+cosearch-server | Face recognition on the basis of conjugation indexes in the space of summarizing invariants
+cosearch-server | Face recognition using conjugation indices in the summation invariants
+
+cosearch-server | !!!Already found but different in titles 32-4 10
+cosearch-server | The semiconductor light is the light source, an alternative to incandescent lamps, and electroluminescent lamps
+cosearch-server | The semiconducror lamp - as a source of illumination - an analog of vacuum and electroluminescent
+
+
         """
 
         db.session.commit()
         db.session.close()
 
         return 'Success'
+
+    """Test EID"""
+    @staticmethod
+    def eidTest():
+        papers = db.session.query(Paper).filter(Paper.eid != None).all()
+
+        query = ""
+        count = 0
+        i = 0
+        while i < len(papers):
+            paper = papers[i]
+            i += 1
+
+            if count == 0:
+                query = f"EID({paper.eid})"
+                count += 1
+            else:
+                query += f" or EID({paper.eid})"
+                count += 1
+
+            print(i, count)
+
+            if count == 25 or i == len(papers):
+                data = Scopus.searchRequest(query)
+
+                if 'search-results' in data and data['search-results']['opensearch:totalResults'] == str(count):
+                    print("OK")
+
+                else:
+                    print('!!!Something happened')
+                    print(query)
+                    print(data['search-results']['opensearch:totalResults'], count)
+                    if 'service-error' in data:
+                        print('!!!Error',
+                              data['service-error']['status']['statusText'])
+
+                query = ""
+                count = 0
+
+        return "Success"

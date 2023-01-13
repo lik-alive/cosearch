@@ -192,6 +192,22 @@ class Filler:
                                  from_encoding="utf8")
             fill_abstract_en(paper, soup)
 
+        for paper in db.session.query(Paper).filter(Paper.title_en == None).filter(Paper.title_ru == None).filter(Paper.pdf.like("%Treb%")).all():
+            paper.title_ru = "Правила подготовки рукописей для журнала «Компьютерная оптика»"
+
+        paper = db.session.query(Paper).filter(Paper.issue == '3').filter(
+            Paper.pdf.like("%avt.pdf%")).first()
+        paper.title_ru = 'Правила подготовки рукописей для журнала «Компьютерная оптика»'
+
+        paper = db.session.query(Paper).filter(Paper.issue == '12').filter(
+            Paper.pdf.like("%an.pdf%")).first()
+        paper.title_ru = 'Аннотации'
+        paper.title_en = 'Abstracts'
+
+        paper = db.session.query(Paper).filter(Paper.issue == '31-2').filter(
+            Paper.title_en == None).filter(Paper.title_ru == None).first()
+        paper.title_ru = 'Правила подготовки рукописей для журнала «Компьютерная оптика»'
+
         db.session.commit()
         db.session.close()
         return 'Success'

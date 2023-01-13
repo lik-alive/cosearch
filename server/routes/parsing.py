@@ -35,11 +35,16 @@ def fillDataFix():
 #     return Filler.fill_years()
 
 
-# @api.route('/scopus-link', methods=['GET'])
-# def scopusLink():
-#     return Scopus.link()
+@api.route('/scopus-link', methods=['GET'])
+def scopusLink():
+    return Scopus.link()
 
 
-# @api.route('/scopus-fix', methods=['GET'])
-# def scopusFix():
-#     return Scopus.fix()
+@api.route('/scopus-fix', methods=['GET'])
+def scopusFix():
+    return Scopus.fix()
+
+
+@api.route('/scopus-eid-test', methods=['GET'])
+def scopusEidTest():
+    return Scopus.eidTest()
