@@ -33,7 +33,7 @@ def fill_abstract_en(paper: Paper, soup: BeautifulSoup):
         # # HOT FIXES
         if (paper.issue == '34-2' and paper.no == 14) or (paper.issue == '35-1' and paper.no == 13) or (paper.issue == '39-1' and paper.no == 2) or (paper.issue == '40-5' and paper.no >= 12 and paper.no <= 20) or (paper.issue == '46-1' and paper.no == 8):
             item = item.find_next_sibling('p')
-            abstract = sstr(item.text)
+            abstract = [sstr(item.text)]
 
         if len(abstract) > 0:
             abstract = abstract[0]

@@ -25,7 +25,7 @@ def fill_abstract_ru(paper: Paper, soup: BeautifulSoup):
         # HOT FIXES
         if (paper.issue == '33-3' and paper.no >= 11 and paper.no <= 14) or (paper.issue == '34-4' and paper.no == 5) or (paper.issue == '35-2' and paper.no == 5) or (paper.issue == '38-1' and paper.no >= 2 and paper.no <= 22) or (paper.issue == '41-6' and paper.no == 23) or (paper.issue == '42-1' and paper.no == 20) or (paper.issue == '43-2' and paper.no >= 17 and paper.no <= 21):
             item = item.find_next_sibling('p')
-            abstract = sstr(item.text)
+            abstract = [sstr(item.text)]
 
         if len(abstract) > 0:
             abstract = abstract[0]

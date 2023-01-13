@@ -19,6 +19,7 @@ from .parserComps.parse_paper_list import parse_paper_list
 from .parserComps.parse_paper_no import parse_paper_no
 from .parserComps.parse_paper_title_and_authors_en import parse_paper_title_and_authors_en
 from .parserComps.parse_paper_title_and_authors_ru import parse_paper_title_and_authors_ru
+from sqlalchemy.sql.expression import func
 
 
 class Filler:
@@ -195,18 +196,35 @@ class Filler:
         for paper in db.session.query(Paper).filter(Paper.title_en == None).filter(Paper.title_ru == None).filter(Paper.pdf.like("%Treb%")).all():
             paper.title_ru = "Правила подготовки рукописей для журнала «Компьютерная оптика»"
 
-        paper = db.session.query(Paper).filter(Paper.issue == '3').filter(
-            Paper.pdf.like("%avt.pdf%")).first()
-        paper.title_ru = 'Правила подготовки рукописей для журнала «Компьютерная оптика»'
+        for paper in db.session.query(Paper).filter(Paper.issue == '3').filter(Paper.pdf.like("%avt.pdf%")).all():
+            paper.title_ru = 'Правила подготовки рукописей для журнала «Компьютерная оптика»'
 
-        paper = db.session.query(Paper).filter(Paper.issue == '12').filter(
-            Paper.pdf.like("%an.pdf%")).first()
-        paper.title_ru = 'Аннотации'
-        paper.title_en = 'Abstracts'
+        for paper in db.session.query(Paper).filter(Paper.issue == '12').filter(Paper.pdf.like("%an.pdf%")).all():
+            paper.title_ru = 'Аннотации'
+            paper.title_en = 'Abstracts'
 
-        paper = db.session.query(Paper).filter(Paper.issue == '31-2').filter(
-            Paper.title_en == None).filter(Paper.title_ru == None).first()
-        paper.title_ru = 'Правила подготовки рукописей для журнала «Компьютерная оптика»'
+        for paper in db.session.query(Paper).filter(Paper.issue == '31-2').filter(Paper.title_en == None).filter(Paper.title_ru == None).all():
+            paper.title_ru = 'Правила подготовки рукописей для журнала «Компьютерная оптика»'
+
+        for paper in db.session.query(Paper).filter(Paper.abstract_en != None).filter(func.length(Paper.abstract_en) < 10).all():
+            print(paper.id)
+            r = requests.get(paper.page_en)
+            soup = BeautifulSoup(r.content, 'html.parser',
+                                 from_encoding="utf8")
+            fill_abstract_en(paper, soup)
+
+        for paper in db.session.query(Paper).filter(Paper.abstract_ru != None).filter(func.length(Paper.abstract_ru) < 10).all():
+            print(paper.id)
+            r = requests.get(paper.page_ru)
+            soup = BeautifulSoup(r.content, 'html.parser',
+                                 from_encoding="utf8")
+            # HOT FIXES
+            if paper.issue == '33-3' and (paper.no == 7 or paper.no == 9):
+                content = r.content.decode('utf-8').encode('windows-1251',
+                                                           errors='ignore').decode('utf-8', errors='ignore').encode('utf-8')
+                soup = BeautifulSoup(content, 'html.parser')
+
+            fill_abstract_ru(paper, soup)
 
         db.session.commit()
         db.session.close()
