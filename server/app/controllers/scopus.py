@@ -126,7 +126,7 @@ class Scopus:
                         paper.eid = entry['eid']
                         paper.citedcount = entry['citedby-count']
 
-                        print(paper.issue, paper.no)
+                        print(paper.issue, paper.no, 'assigned')
 
                         if paper.doi != scopusDoi:
                             print('!!!Different DOI', paper.issue, paper.no)
