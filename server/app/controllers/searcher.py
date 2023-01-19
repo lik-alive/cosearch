@@ -29,6 +29,10 @@ class Searcher:
         terms = [t.strip().lower()
                  for t in query.split(',') if len(t.strip()) >= 3]
 
+        # Minimum - 1 term
+        if len(terms) < 1:
+            return "Query should contain at least 1 term of minimum 3 characters", 422
+
         # Maximum - 10 terms
         if len(terms) > 10:
             return "Query should not exceed 10 keywords", 422

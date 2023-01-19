@@ -43,7 +43,16 @@ export default function SearchForm(pars: any) {
         });
       }
 
-      if (query.length < 3) return;
+      // Check minimum length
+      const terms = query.split(',');
+      let flagTermLength = false;
+      for (const term of terms) {
+        if (term.trim().length >= 3) {
+          flagTermLength = true;
+          break;
+        }
+      }
+      if (!flagTermLength) return;
 
       if (searchTimeout) clearTimeout(searchTimeout);
       if (cancelTokenSource) cancelTokenSource.cancel();
@@ -60,7 +69,7 @@ export default function SearchForm(pars: any) {
             { query },
             {
               cancelToken: cancelTokenSource.token,
-            }
+            },
           )
           .then(resp => {
             setData({ ...resp.data, query });
@@ -77,7 +86,7 @@ export default function SearchForm(pars: any) {
           });
       }, timeout);
     },
-    [alert, navigate]
+    [alert, navigate],
   );
 
   // Handle history change
@@ -86,23 +95,11 @@ export default function SearchForm(pars: any) {
     const urlParams = new URLSearchParams(window.location.search);
     const getQuery = urlParams.get("query") || "";
 
-    if (getQuery !== query) {
+    console.log("effect", "%" + getQuery + "%", "%" + query + "%");
+    if (getQuery !== query.trim()) {
       updateQuery(getQuery, true, false);
     }
   }, [location, query, updateQuery]);
-
-  // window.addEventListener(
-  //   "popstate",
-  //   function (event) {
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     const getQuery = urlParams.get("query");
-
-  //     if (getQuery !== query) {
-  //       updateQuery(getQuery || "", true, false);
-  //     }
-  //   },
-  //   { once: true }
-  // );
 
   return (
     <div className="search-form mt-4">

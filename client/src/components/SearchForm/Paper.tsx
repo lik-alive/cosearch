@@ -25,6 +25,7 @@ export interface IPaper {
   pdf?: string;
   year: number;
   rate: number;
+  match?: number;
 }
 
 export default function Paper({
@@ -218,6 +219,7 @@ export default function Paper({
           </div>
 
           <div>
+            {paper.match}
             {mark}
             <HighlightedText text={title} terms={terms} />
           </div>
