@@ -6,13 +6,14 @@ from app.actions.translator import Translator
 from app.db import db
 from app.models.paper import Paper
 from sqlalchemy.sql import false
+from .scopus import Scopus
 
 
 class Searcher:
     """Search for papers."""
 
     @staticmethod
-    def search_co():
+    def search(type):
         data = request.get_json() or {}
 
         # No term provided
@@ -52,6 +53,18 @@ class Searcher:
         if len(termsRu) > 0:
             termsEn += Translator.translate(termsRu, 'en') or []
 
+        if (type == 'scopus'):
+            data = Searcher.search_scopus(termsEn)
+        else:
+            data = Searcher.search_co(termsRu, termsEn)
+
+        db.session.close()
+
+        return jsonify(data)
+
+    """Search in Computer Optics"""
+    @staticmethod
+    def search_co(termsRu, termsEn):
         # Create filter
         termFilter = false()
         for term in termsRu:
@@ -63,7 +76,7 @@ class Searcher:
 
         # Extract papers from DB
         papers = db.session.query(Paper).filter(termFilter).filter(
-            (Paper.year >= 2020) | (Paper.citedcount == 0) | ((Paper.citedcount >= 33) & (Paper.citedcount < 36))).all()
+            (Paper.year >= 2020) | (Paper.citedcount == 0) | ((Paper.citedcount >= 30) & (Paper.citedcount < 36))).all()
 
         # Filter keywords
         matched_keywords = []
@@ -91,13 +104,65 @@ class Searcher:
         # Sort keywords
         matched_keywords.sort()
 
-        db.session.close()
-
-        return jsonify({
+        return {
             'papers': [i.serialize for i in papers],
             'terms': termsRu + termsEn,
             'keywords': matched_keywords
-        })
+        }
+
+    """Search in Scopus"""
+    @staticmethod
+    def search_scopus(termsEn):
+        # Create filter
+        # NOTE: abs(image crystal) - in any order, abs({image crystal}) - exact string
+        terms = ' '.join(termsEn)
+        query = f'ABS({terms}) or TITLE({terms}) or KEY({terms})'
+        # NOTE: do not use >= or <=, spaces around sign are mandatory
+        query = f'({query}) and (YEAR > 2017)'
+        print(query)
+
+        papers = []
+
+        data = Scopus.searchRequest(query, popularFirst=True)
+        if 'search-results' in data:
+            total = int(data['search-results']['opensearch:totalResults'])
+            start = int(data['search-results']['opensearch:startIndex'])
+            page = int(data['search-results']['opensearch:itemsPerPage'])
+            for i in range(page):
+                entry = data['search-results']['entry'][i]
+                paper = {
+                    'id': entry.get('eid', i),
+                    'title_en': entry.get('dc:title'),
+                    'creator_en': entry.get('dc:creator'),
+                    'source': entry.get('prism:publicationName'),
+                    'year': entry.get('prism:coverDisplayDate'),
+                    'volume': entry.get('prism:volume'),
+                    'issue': entry.get('prism:issueIdentifier'),
+                    'pages': entry.get('prism:pageRange'),
+                    'doi': entry.get('10.24132/CSRN.2018.2802.23'),
+                    'citedcount': entry.get('citedby-count', 0),
+                }
+
+                date = entry.get('prism:coverDate', '')
+                paper['date'] = date
+                year = re.search(r'\d\d\d\d', date)
+                if year:
+                    paper['year'] = year[0]
+
+                links = entry.get('link', [])
+                for j in range(len(links)):
+                    link = links[j]
+                    ref = link.get('@ref')
+                    if ref == 'scopus':
+                        paper['link'] = link.get('@href')
+                        break
+
+                papers.append(paper)
+
+        return {
+            'papers': papers,
+            'terms': termsEn
+        }
 
     """Provide pdf proxy"""
     @staticmethod

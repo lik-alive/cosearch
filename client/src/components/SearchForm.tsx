@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import Keywords from "./SearchForm/Keywords";
@@ -6,8 +6,6 @@ import PaperList from "./SearchForm/PaperList";
 import { useAlert } from "react-alert";
 import { useNavigate, useLocation } from "react-router-dom";
 import COSpinner from "./COSpinner";
-
-import "./SearchForm.scss";
 
 let searchTimeout: any;
 const cancelToken = axios.CancelToken;
@@ -23,28 +21,24 @@ export default function SearchForm(pars: any) {
   });
 
   const navigate = useNavigate();
+  const type = window.location.pathname === "/" ? "co" : "scopus";
 
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
   const updateQuery = useCallback(
-    (query: string, immediate = false, newstate = true) => {
+    (newQuery: string, immediate = false, newstate = true) => {
+      setQuery(newQuery);
+      if (query.trim() === newQuery.trim()) return;
+
       setData({
         papers: undefined,
         terms: undefined,
         keywords: undefined,
       });
-      setQuery(query);
-
-      // Update get-parameters
-      if (newstate) {
-        navigate({
-          search: query ? `?query=${query}` : "",
-        });
-      }
 
       // Check minimum length
-      const terms = query.split(',');
+      const terms = newQuery.split(",");
       let flagTermLength = false;
       for (const term of terms) {
         if (term.trim().length >= 3) {
@@ -54,6 +48,7 @@ export default function SearchForm(pars: any) {
       }
       if (!flagTermLength) return;
 
+      // Stop previous request
       if (searchTimeout) clearTimeout(searchTimeout);
       if (cancelTokenSource) cancelTokenSource.cancel();
 
@@ -63,16 +58,23 @@ export default function SearchForm(pars: any) {
       searchTimeout = setTimeout(() => {
         cancelTokenSource = cancelToken.source();
 
+        // Update get-parameters
+        if (newstate) {
+          navigate({
+            search: newQuery ? `?query=${newQuery}` : "",
+          });
+        }
+
         axios
           .post(
-            `${process.env.REACT_APP_BACKEND}/search-co`,
-            { query },
+            `${process.env.REACT_APP_BACKEND}/search-${type}`,
+            { query: newQuery },
             {
               cancelToken: cancelTokenSource.token,
             },
           )
           .then(resp => {
-            setData({ ...resp.data, query });
+            setData(resp.data);
           })
           .catch(function (thrown) {
             if (axios.isCancel(thrown)) {
@@ -86,7 +88,7 @@ export default function SearchForm(pars: any) {
           });
       }, timeout);
     },
-    [alert, navigate],
+    [query, type, alert, navigate],
   );
 
   // Handle history change
@@ -95,11 +97,8 @@ export default function SearchForm(pars: any) {
     const urlParams = new URLSearchParams(window.location.search);
     const getQuery = urlParams.get("query") || "";
 
-    console.log("effect", "%" + getQuery + "%", "%" + query + "%");
-    if (getQuery !== query.trim()) {
-      updateQuery(getQuery, true, false);
-    }
-  }, [location, query, updateQuery]);
+    updateQuery(getQuery, true, false);
+  }, [location]);
 
   return (
     <div className="search-form mt-4">
@@ -125,7 +124,7 @@ export default function SearchForm(pars: any) {
         {!loading && (
           <Row className="m-0 flex-wrap-reverse">
             <Col sm={12} lg={8} xxl={9}>
-              {PaperList(data.papers, data.terms)}
+              {PaperList(data.papers, data.terms, type)}
             </Col>
 
             <Col className="mb-2">

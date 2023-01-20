@@ -4,9 +4,13 @@ from .api import api
 
 @api.route('/search-co', methods=['POST'])
 def searchCO():
-    return Searcher.search_co()
+    return Searcher.search('co')
 
 
 @api.route('/pdf-co/<id>', methods=['GET'])
 def pdfCO(id):
     return Searcher.pdf_co(id)
+
+@api.route('/search-scopus', methods=['POST'])
+def searchScopus():
+    return Searcher.search('scopus')

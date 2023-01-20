@@ -192,7 +192,7 @@ class Scopus:
 
     """Search  request"""
     @staticmethod
-    def searchRequest(query, post=False):
+    def searchRequest(query, start=0, popularFirst=False, post=False):
         if post:
             headers = {
                 'Accept': 'application/json',
@@ -201,17 +201,22 @@ class Scopus:
 
             data = {
                 'query': query,
-                'start': 0,
-                'count': 50
+                'start': start,
+                'count': 25
             }
+            if popularFirst:
+                data['sort'] = 'citedby-count'
 
             r = requests.post(
                 "https://api.elsevier.com/content/search/scopus", headers=headers, data=data)
         else:
             params = {
                 'query': query,
+                'start': start,
                 'apiKey': str(os.environ.get('ELS_KEY'))
             }
+            if popularFirst:
+                params['sort'] = 'citedby-count'
 
             r = requests.get(
                 "https://api.elsevier.com/content/search/scopus", params=params)
@@ -1207,7 +1212,8 @@ cosearch-server | The semiconducror lamp - as a source of illumination - an anal
                 else:
                     print('!!!Something happened')
                     print(query)
-                    print(data['search-results']['opensearch:totalResults'], count)
+                    print(data['search-results']
+                          ['opensearch:totalResults'], count)
                     if 'service-error' in data:
                         print('!!!Error',
                               data['service-error']['status']['statusText'])

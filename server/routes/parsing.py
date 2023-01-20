@@ -25,9 +25,9 @@ from .api import api
 #     return Filler.fill_data_en()
 
 
-@api.route('/fill-data-fix', methods=['GET'])
-def fillDataFix():
-    return Filler.fill_data_fix()
+# @api.route('/fill-data-fix', methods=['GET'])
+# def fillDataFix():
+#     return Filler.fill_data_fix()
 
 
 # @api.route('/fill-years', methods=['GET'])
@@ -35,16 +35,16 @@ def fillDataFix():
 #     return Filler.fill_years()
 
 
-@api.route('/scopus-link', methods=['GET'])
-def scopusLink():
-    return Scopus.link()
+# @api.route('/scopus-link', methods=['GET'])
+# def scopusLink():
+#     return Scopus.link()
 
 
-@api.route('/scopus-fix', methods=['GET'])
-def scopusFix():
-    return Scopus.fix()
+# @api.route('/scopus-fix', methods=['GET'])
+# def scopusFix():
+#     return Scopus.fix()
 
 
-@api.route('/scopus-eid-test', methods=['GET'])
-def scopusEidTest():
-    return Scopus.eidTest()
+# @api.route('/scopus-eid-test', methods=['GET'])
+# def scopusEidTest():
+#     return Scopus.eidTest()

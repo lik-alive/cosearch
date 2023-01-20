@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Layout from "./layouts/layout";
 import Index from "./routes/index";
+import Scopus from "./routes/scopus";
 import ErrorPage from "./error-page";
 
 const router = createBrowserRouter([
@@ -23,10 +24,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Index />,
       },
-      // {
-      //   path: "contacts/:contactId",
-      //   element: <Contact />,
-      // },
+      {
+        path: "scopus",
+        element: <Scopus />,
+      },
     ],
   },
 ]);
@@ -43,5 +44,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <AlertProvider template={AlertTemplate} {...options}>
       <RouterProvider router={router} />
     </AlertProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

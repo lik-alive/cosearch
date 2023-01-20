@@ -198,7 +198,7 @@ export default function Paper({
             {(!!citationRu || !!infoRu) && (
               <div
                 className="cb-btn"
-                title="Copy to clipboard"
+                title="Copy to clipboard Russian info"
                 onClick={event => copyToClipboard(event, "ru")}
               >
                 <Clipboard2Fill color="cornflowerblue" size={28} />
@@ -209,7 +209,7 @@ export default function Paper({
             {(!!citationEn || !!infoEn) && (
               <div
                 className="cb-btn"
-                title="Copy to clipboard"
+                title="Copy to clipboard English info"
                 onClick={event => copyToClipboard(event, "en")}
               >
                 <Clipboard2Fill color="cornflowerblue" size={28} />
@@ -219,7 +219,6 @@ export default function Paper({
           </div>
 
           <div>
-            {paper.match}
             {mark}
             <HighlightedText text={title} terms={terms} />
           </div>
