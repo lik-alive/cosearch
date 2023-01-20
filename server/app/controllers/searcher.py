@@ -119,7 +119,6 @@ class Searcher:
         query = f'ABS({terms}) or TITLE({terms}) or KEY({terms})'
         # NOTE: do not use >= or <=, spaces around sign are mandatory
         query = f'({query}) and (YEAR > 2017)'
-        print(query)
 
         papers = []
 
