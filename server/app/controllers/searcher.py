@@ -138,7 +138,7 @@ class Searcher:
                     'volume': entry.get('prism:volume'),
                     'issue': entry.get('prism:issueIdentifier'),
                     'pages': entry.get('prism:pageRange'),
-                    'doi': entry.get('10.24132/CSRN.2018.2802.23'),
+                    'doi': entry.get('prism:doi'),
                     'citedcount': entry.get('citedby-count', 0),
                 }
 

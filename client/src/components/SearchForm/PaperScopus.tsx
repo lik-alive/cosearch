@@ -18,6 +18,7 @@ export interface IPaperScopus {
   issue?: string;
   pages?: string;
   link?: string;
+  doi?: string;
   citedcount: number;
 }
 
@@ -79,6 +80,23 @@ export default function PaperScopus({
           <div>{sourceInfo()}</div>
           <div className="field small bolder">Cited count</div>
           <div>{paper.citedcount}</div>
+
+          {paper.doi && (
+            <>
+              <div className="field small bolder">DOI</div>
+              <div>
+                <a
+                  href={"//doi.org/" + paper.doi}
+                  target="_blank"
+                  rel="noreferrer"
+                  title="Open in a new tab"
+                >
+                  {paper.doi}
+                </a>
+              </div>
+            </>
+          )}
+
           <div className="field small bolder">Link</div>
           <div>
             <a

@@ -92,8 +92,8 @@ class Filler:
                                  from_encoding="utf8")
             # HOT FIXES
             if paper.issue == '33-3' and (paper.no == 7 or paper.no == 9):
-                content = r.content.decode('utf-8').encode('windows-1251',
-                                                           errors='ignore').decode('utf-8', errors='ignore').encode('utf-8')
+                content = r.content.decode(
+                    'utf-8').encode('windows-1251', errors='ignore').decode('utf-8', errors='ignore').encode('utf-8')
                 soup = BeautifulSoup(content, 'html.parser')
 
             fill_doi(paper, soup)
@@ -220,8 +220,8 @@ class Filler:
                                  from_encoding="utf8")
             # HOT FIXES
             if paper.issue == '33-3' and (paper.no == 7 or paper.no == 9):
-                content = r.content.decode('utf-8').encode('windows-1251',
-                                                           errors='ignore').decode('utf-8', errors='ignore').encode('utf-8')
+                content = r.content.decode(
+                    'utf-8').encode('windows-1251', errors='ignore').decode('utf-8', errors='ignore').encode('utf-8')
                 soup = BeautifulSoup(content, 'html.parser')
 
             fill_abstract_ru(paper, soup)
