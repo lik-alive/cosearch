@@ -3,7 +3,6 @@ import { Form, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import Keywords from "./SearchForm/Keywords";
 import PaperList from "./SearchForm/PaperList";
-import { useAlert } from "react-alert";
 import { useNavigate, useLocation } from "react-router-dom";
 import COSpinner from "./COSpinner";
 
