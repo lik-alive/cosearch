@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import Keywords from "./SearchForm/Keywords";
@@ -76,12 +76,8 @@ export default function SearchForm(pars: any) {
           .then(resp => {
             setData(resp.data);
           })
-          .catch(function (thrown) {
-            if (axios.isCancel(thrown)) {
-              // console.log("Request canceled");
-            } else {
-              alert.show("Server error", { type: "error" });
-            }
+          .catch(function (error) {
+            error.handleGlobally && error.handleGlobally();
           })
           .finally(() => {
             setLoading(false);

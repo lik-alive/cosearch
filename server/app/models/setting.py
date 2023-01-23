@@ -1,9 +1,10 @@
 from app.db import db
 from app.controllers.parserComps.info import Info
 
+"""Setting model."""
+
 
 class Setting(db.Model):
-    """Setting model."""
 
     __tablename__ = 'settings'
     id = db.Column(db.Integer, primary_key=True)

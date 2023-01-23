@@ -2,6 +2,7 @@ import os
 import requests
 from app.db import db
 from app.models.setting import Setting
+from config import Config
 
 
 class Translator:
@@ -12,7 +13,7 @@ class Translator:
     def translate(terms, lang):
         url = 'https://translate.api.cloud.yandex.net/translate/v2/translate'
         data = {
-            'folderId': str(os.environ.get('YA_FOLDERID')),
+            'folderId': Config.YA_FOLDERID,
             'texts': terms,
             'targetLanguageCode': lang
         }
@@ -27,11 +28,12 @@ class Translator:
         }
 
         # Check requests count (prevent overuse)
-        setting = db.session.query(Setting).filter(Setting.field == 'ya_tr').first()
+        setting = db.session.query(Setting).filter(
+            Setting.field == 'ya_tr').first()
 
         if int(setting.value) > 5000:
             return None
-        
+
         setting.value = int(setting.value) + 1
         db.session.commit()
         db.session.close()
@@ -49,7 +51,7 @@ class Translator:
     def getToken():
         url = 'https://iam.api.cloud.yandex.net/iam/v1/tokens'
         data = {
-            'yandexPassportOauthToken': str(os.environ.get('YA_OAUTH'))
+            'yandexPassportOauthToken': Config.YA_OAUTH
         }
 
         r = requests.post(url, json=data)

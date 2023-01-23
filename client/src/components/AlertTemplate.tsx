@@ -1,8 +1,3 @@
-// import InfoIcon from './icons/InfoIcon'
-// import SuccessIcon from './icons/SuccessIcon'
-// import ErrorIcon from './icons/ErrorIcon'
-// import CloseIcon from './icons/CloseIcon'
-
 import { InfoCircle, CheckCircle, XCircle } from "react-bootstrap-icons";
 
 const alertStyle = {

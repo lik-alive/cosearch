@@ -1,9 +1,10 @@
 from app.db import db
 from app.controllers.parserComps.info import Info
 
+"""Paper model."""
+
 
 class Paper(db.Model):
-    """Paper model."""
 
     __tablename__ = 'papers'
     id = db.Column(db.Integer, primary_key=True)

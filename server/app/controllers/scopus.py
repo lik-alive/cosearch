@@ -3,6 +3,7 @@ import requests
 from app.db import db
 from app.models.paper import Paper
 from app.actions.helper import compstr
+from config import Config
 
 
 class Scopus:
@@ -196,7 +197,7 @@ class Scopus:
         if post:
             headers = {
                 'Accept': 'application/json',
-                'X-ELS-APIKey': str(os.environ.get('ELS_KEY'))
+                'X-ELS-APIKey': Config.ELS_KEY
             }
 
             data = {
@@ -213,7 +214,7 @@ class Scopus:
             params = {
                 'query': query,
                 'start': start,
-                'apiKey': str(os.environ.get('ELS_KEY'))
+                'apiKey': Config.ELS_KEY
             }
             if popularFirst:
                 params['sort'] = 'citedby-count'

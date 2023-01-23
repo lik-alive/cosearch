@@ -1,4 +1,3 @@
-from flask import Blueprint
 from app.controllers.parser import Parser
 from app.controllers.filler import Filler
 from app.controllers.scopus import Scopus

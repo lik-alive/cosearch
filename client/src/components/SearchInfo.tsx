@@ -8,11 +8,9 @@ export default function SearchInfo() {
   return (
     <div className="info">
       <Container>
-        {/* <h1 className="display-6">Welcome, friend!</h1> */}
-        <div>
-          This page provides a handy service for smart paper search in{" "}
-          <span className="brand">{brand}</span>.
-        </div>
+        <h1 className="display-6">
+          <span className="brand">{brand} DB</span>
+        </h1>
         <div>
           The search is case-insensitive and covers the following paper's
           meta-data: <span className="bolder">title</span>,{" "}
