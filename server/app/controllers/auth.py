@@ -39,15 +39,15 @@ class Auth:
     def register():
         data = request.form
 
-        if not data or not data.get('name') or not data.get('password'):
+        if not data or not data.get('username') or not data.get('password'):
             return jsonify({'msg': 'Credentials required'}), 422
 
-        name, password = data.get('name'), data.get('password')
+        username, password = data.get('username'), data.get('password')
 
-        user = User.query.filter_by(name=name).first()
+        user = User.query.filter_by(username=username).first()
         if not user:
             user = User(
-                name=name,
+                username=username,
                 password=generate_password_hash(password)
             )
             db.session.add(user)

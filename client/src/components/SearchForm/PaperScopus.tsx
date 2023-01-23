@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent } from "react";
 import { Accordion } from "react-bootstrap";
 import { Clipboard2Fill } from "react-bootstrap-icons";
 import HighlightedText from "components/HighlightedText";
@@ -6,7 +6,6 @@ import { CopyToClipboard } from "helper";
 import { useAlert } from "react-alert";
 
 import "./Paper.scss";
-import { info } from "console";
 
 export interface IPaperScopus {
   id: string;
@@ -30,7 +29,6 @@ export default function PaperScopus({
   terms: Array<string>;
 }) {
   const alert = useAlert();
-  const [loaded, setLoaded] = useState(false);
 
   const sourceInfo = () => {
     let info = paper.source;
@@ -74,7 +72,7 @@ export default function PaperScopus({
           <div className="small text-muted">{paper.creator_en}</div>
         </div>
       </Accordion.Header>
-      <Accordion.Body onEnter={() => setLoaded(true)}>
+      <Accordion.Body>
         <>
           <div className="field small bolder">Source</div>
           <div>{sourceInfo()}</div>

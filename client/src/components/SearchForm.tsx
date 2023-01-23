@@ -12,8 +12,6 @@ const cancelToken = axios.CancelToken;
 let cancelTokenSource: any;
 
 export default function SearchForm(pars: any) {
-  const alert = useAlert();
-
   const [data, setData] = useState({
     papers: undefined,
     terms: undefined,
@@ -84,7 +82,7 @@ export default function SearchForm(pars: any) {
           });
       }, timeout);
     },
-    [query, type, alert, navigate],
+    [query, type, navigate],
   );
 
   // Handle history change
@@ -94,7 +92,7 @@ export default function SearchForm(pars: any) {
     const getQuery = urlParams.get("query") || "";
 
     updateQuery(getQuery, true, false);
-  }, [location]);
+  }, [location, updateQuery]);
 
   return (
     <div className="search-form mt-4">
