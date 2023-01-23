@@ -19,7 +19,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:8031/api/login", {
+      await axios.post(`${process.env.REACT_APP_BACKEND}/login`, {
         username,
         password,
       });

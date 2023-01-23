@@ -11,7 +11,7 @@ export default function Header() {
   const logout = async (event: any) => {
     event.preventDefault();
     try {
-      await axios.get("http://localhost:8031/api/logout");
+      await axios.get(`${process.env.REACT_APP_BACKEND}/logout`);
     } catch (e) {
       // console.log(e);
     } finally {
