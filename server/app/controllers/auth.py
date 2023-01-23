@@ -37,12 +37,11 @@ class Auth:
 
     @staticmethod
     def register():
-        data = request.form
+        username = request.json.get("username", None)
+        password = request.json.get("password", None)
 
-        if not data or not data.get('username') or not data.get('password'):
+        if not username or not password:
             return jsonify({'msg': 'Credentials required'}), 422
-
-        username, password = data.get('username'), data.get('password')
 
         user = User.query.filter_by(username=username).first()
         if not user:
