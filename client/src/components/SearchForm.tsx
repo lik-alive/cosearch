@@ -86,12 +86,14 @@ export default function SearchForm(pars: any) {
 
   // Handle history change
   let location = useLocation();
+  // NOTE: do not add updateQuery as dependency!
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const getQuery = urlParams.get("query") || "";
 
     updateQuery(getQuery, true, false);
-  }, [location, updateQuery]);
+    // eslint-disable-next-line
+  }, [location]);
 
   return (
     <div className="search-form mt-4">
