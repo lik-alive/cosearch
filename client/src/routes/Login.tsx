@@ -43,7 +43,7 @@ export default function Login() {
     <>
       <div className="auth">
         <Container className="d-flex vh-100">
-          <Row className="m-auto align-self-center">
+          <Row className="mx-auto">
             <Col>
               <Card
                 className="text-center px-4 pt-4 pb-2"

@@ -34,6 +34,20 @@ export default function SearchForm(pars: any) {
         keywords: undefined,
       });
 
+      // Stop previous request
+      if (searchTimeout) clearTimeout(searchTimeout);
+      if (cancelTokenSource) cancelTokenSource.cancel();
+
+      // Check empty string
+      if (newQuery.length === 0) {
+        setTimeout(() => {
+          navigate({
+            search: "",
+          });
+        }, 100);
+        return;
+      }
+
       // Check minimum length
       const terms = newQuery.split(",");
       let flagTermLength = false;
@@ -44,10 +58,6 @@ export default function SearchForm(pars: any) {
         }
       }
       if (!flagTermLength) return;
-
-      // Stop previous request
-      if (searchTimeout) clearTimeout(searchTimeout);
-      if (cancelTokenSource) cancelTokenSource.cancel();
 
       const timeout = immediate ? 0 : 1000;
       setLoading(true);
@@ -117,14 +127,16 @@ export default function SearchForm(pars: any) {
         )}
 
         {!loading && (
-          <Row className="m-0 flex-wrap-reverse">
+          <Row className="m-0 flex-wrap-reverse justify-content-around">
             <Col sm={12} lg={8} xxl={9}>
               {PaperList(data.papers, data.terms, type)}
             </Col>
 
-            <Col className="mb-2">
-              {Keywords(data.keywords, data.terms || [], updateQuery)}
-            </Col>
+            {type === "co" && (
+              <Col className="mb-2">
+                {Keywords(data.keywords, data.terms || [], updateQuery)}
+              </Col>
+            )}
           </Row>
         )}
       </Container>

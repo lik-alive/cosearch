@@ -8,4 +8,4 @@ docker-compose up --build
 yarn build
 
 # Deploy client (dev)
-yarn start
+yarn astart

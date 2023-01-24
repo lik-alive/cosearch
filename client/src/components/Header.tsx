@@ -53,7 +53,7 @@ export default function Header() {
                 onClick={event => logout(event)}
               >
                 <BoxArrowRight />
-                <span className="ms-1 d-md-none">Logout</span>
+                <span className="ms-1">Logout</span>
               </NavLink>
             </Nav>
           </Navbar.Collapse>
