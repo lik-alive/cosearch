@@ -1,0 +1,5 @@
+# Join running container in bash mode
+docker exec -it <container-name> bash
+
+# Join running container's output
+docker attach <container-name>
