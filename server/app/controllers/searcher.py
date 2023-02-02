@@ -7,6 +7,7 @@ from app.db import db
 from app.models.paper import Paper
 from sqlalchemy.sql import false
 from .scopus import Scopus
+from app.log import log
 
 
 class Searcher:
@@ -55,8 +56,10 @@ class Searcher:
 
         if (type == 'scopus'):
             data = Searcher.search_scopus(termsEn)
+            log.info(f"Scopus: {query}")
         else:
             data = Searcher.search_co(termsRu, termsEn)
+            log.info(f"CO: {query}")
 
         db.session.close()
 

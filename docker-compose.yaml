@@ -2,6 +2,7 @@ version: "3"
 
 services:
   server:
+    user: '33:33'
     build: ./server
     image: cosearch-server
     container_name: cosearch-server

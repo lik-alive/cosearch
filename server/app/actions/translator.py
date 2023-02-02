@@ -3,6 +3,7 @@ import requests
 from app.db import db
 from app.models.setting import Setting
 from config import Config
+from app.log import log
 
 
 class Translator:
@@ -21,6 +22,7 @@ class Translator:
         token = Translator.getToken()
 
         if token is None:
+            log.error('Translator token is empty')
             return None
 
         headers = {
@@ -32,6 +34,7 @@ class Translator:
             Setting.field == 'ya_tr').first()
 
         if int(setting.value) > 5000:
+            log.error('Translator requests are exausted')
             return None
 
         setting.value = int(setting.value) + 1
@@ -39,6 +42,7 @@ class Translator:
         db.session.close()
 
         r = requests.post(url, json=data, headers=headers)
+        log.info(f'Translator: {terms}')
 
         items = r.json().get('translations')
         if not items:

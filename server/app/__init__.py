@@ -4,6 +4,7 @@ from config import Config
 from routes import api
 from app.db import db
 from flask_jwt_extended import JWTManager
+from app.log import log
 
 
 def create_flask_app(config_class=Config):
@@ -13,6 +14,9 @@ def create_flask_app(config_class=Config):
 
     # Init config
     app.config.from_object(config_class)
+
+    # Init logging
+    log.init()
 
     # Init database
     db.init_app(app)

@@ -4,6 +4,9 @@ import secrets
 secrets.token_hex(16)
 - Place token in settings.ini
 
+### Set file permissions
+sudo chown www-data:user ./server/logs -R
+
 ### Init python env
 - Select .env.production or .env.development in docker-compose.yaml
 

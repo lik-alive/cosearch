@@ -3,6 +3,7 @@ from app.models.user import User
 from flask import jsonify, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
+from app.log import log
 
 """Auth controller."""
 
@@ -19,6 +20,8 @@ class Auth:
         if not username or not password:
             return jsonify({'msg': 'Credentials required'}), 422
 
+        log.info(f'Try logging in as {username}')
+
         user = db.session.query(User).filter_by(username=username).first()
 
         if not user:
@@ -29,6 +32,8 @@ class Auth:
 
             response = jsonify({"msg": "Login successful"})
             set_access_cookies(response, access_token)
+
+            log.info(f'Logged in as {username}')
             return response
 
         return jsonify({'msg': 'Wrong credentials'}), 400
