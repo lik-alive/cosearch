@@ -22,14 +22,15 @@ class Searcher:
             return "Query is required", 422
 
         query = data['query']
+        isGlobal = '!' in query
 
         # Too long query
         if len(query) > 255:
             return "Query should not exceed 255 characters", 422
 
         # Split terms and convert to lower case
-        terms = [t.strip().lower()
-                 for t in query.split(',') if len(t.strip()) >= 3]
+        terms = [t.replace('!', '').strip().lower()
+                 for t in query.split(',') if len(t.replace('!', '').strip()) >= 3]
 
         # Minimum - 1 term
         if len(terms) < 1:
@@ -58,7 +59,7 @@ class Searcher:
             data = Searcher.search_scopus(termsEn)
             log.info(f"Scopus: {query}")
         else:
-            data = Searcher.search_co(termsRu, termsEn)
+            data = Searcher.search_co(termsRu, termsEn, isGlobal)
             log.info(f"CO: {query}")
 
         db.session.close()
@@ -67,7 +68,7 @@ class Searcher:
 
     """Search in Computer Optics"""
     @staticmethod
-    def search_co(termsRu, termsEn):
+    def search_co(termsRu, termsEn, isGlobal = False):
         # Create filter
         termFilter = false()
         for term in termsRu:
@@ -78,7 +79,10 @@ class Searcher:
                 f"%{term}%") | Paper.abstract_en.like(f"%{term}%")
 
         # Extract papers from DB
-        papers = db.session.query(Paper).filter(termFilter).filter(
+        papers = db.session.query(Paper).filter(termFilter)
+
+        if not isGlobal:
+            papers = papers.filter(
             (Paper.year >= 2020) | (Paper.citedcount == 0) | ((Paper.citedcount >= 30) & (Paper.citedcount < 36))).all()
 
         # Filter keywords

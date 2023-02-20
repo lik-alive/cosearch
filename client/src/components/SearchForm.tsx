@@ -49,7 +49,7 @@ export default function SearchForm(pars: any) {
       }
 
       // Check minimum length
-      const terms = newQuery.split(",");
+      const terms = newQuery.replaceAll('!', '').split(",");
       let flagTermLength = false;
       for (const term of terms) {
         if (term.trim().length >= 3) {
