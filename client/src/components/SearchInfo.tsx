@@ -23,6 +23,10 @@ export default function SearchInfo() {
           <span className="bolder">Russian</span> and{" "}
           <span className="bolder">English</span> language.
         </div>
+        {
+          location.pathname === "/" &&
+          (<div>Use an exclamation mark ("!") in your query for a global search.</div>)
+        }
       </Container>
     </div>
   );
