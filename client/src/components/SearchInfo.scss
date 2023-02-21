@@ -1,0 +1,27 @@
+.info {
+  .accordion {
+    .accordion-item {
+      background-color: transparent;
+
+      .accordion-button {
+        background-color: #c5ced9;
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+
+      .accordion-collapse {
+        .accordion-body {
+          padding: 4px 4px 0 4px;
+        }
+
+        @media (min-width: 768px) {
+          &.collapse {
+            display: block;
+            height: auto !important;
+            visibility: visible;
+          }
+        }
+      }
+    }
+  }
+}
