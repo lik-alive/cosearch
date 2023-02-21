@@ -7,8 +7,8 @@ import axios from "axios";
 import "./Login.scss";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(process.env.NODE_ENV === 'development' ? "test" : "");
+  const [password, setPassword] = useState(process.env.NODE_ENV === 'development' ? "123" : "");
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const alert = useAlert();
