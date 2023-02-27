@@ -7,11 +7,11 @@ services:
     image: cosearch-server
     container_name: cosearch-server
     env_file:
-      - ./server/.env.development
+      - ./server/.env.${MODE}
     restart: always
     volumes:
       - ./server:/server
       - /run/mysqld:/run/mysqld
     ports:
       - 8031:5000
-    command: gunicorn main:"create_flask_app()" -b 0.0.0.0:5000 --timeout 3000 --threads 2 --reload
+    command: gunicorn main:"create_flask_app()" -b 0.0.0.0:5000 --timeout 30 --threads 2 --reload
