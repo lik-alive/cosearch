@@ -3,4 +3,3 @@ WORKDIR /server
 COPY requirements.txt /server
 RUN pip3 install --upgrade pip -r requirements.txt
 COPY . /server
-EXPOSE 5000

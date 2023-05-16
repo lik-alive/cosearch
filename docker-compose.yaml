@@ -9,9 +9,10 @@ services:
     env_file:
       - ./server/.env.${MODE}
     restart: always
+    network_mode: host
     volumes:
       - ./server:/server
-      - /run/mysqld:/run/mysqld
-    ports:
-      - 8031:5000
-    command: gunicorn main:"create_flask_app()" -b 0.0.0.0:5000 --timeout 30 --threads 2 --reload
+    # - /run/mysqld/mysqld.sock:/run/mysqld/mysqld.sock
+    # ports:
+    #   - 8031:8031
+    command: gunicorn main:"create_flask_app()" -b 0.0.0.0:8031 --timeout 30 --threads 2 --reload
