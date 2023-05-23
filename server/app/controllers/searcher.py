@@ -125,7 +125,7 @@ class Searcher:
         terms = ' '.join(termsEn)
         query = f'ABS({terms}) or TITLE({terms}) or KEY({terms})'
         # NOTE: do not use >= or <=, spaces around sign are mandatory
-        query = f'({query}) and (YEAR > 2017)'
+        query = f'({query}) and ((YEAR > 2017) or (PUBYEAR > 2017))'
 
         papers = []
 
